@@ -17,6 +17,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/teste', [AuthController::class, 'test']);
 
 Route::apiResource('/vacancy', VacancyController::class);
