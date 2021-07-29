@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Vacancy;
 use App\Repositories\VacancyRepository;
 
 class VacancyService
@@ -20,21 +19,21 @@ class VacancyService
 
     public function store($request)
     {
-        return $this->repository->create($request);
+        return $this->repository->create($request->all());
     }
 
     public function update($request, $vacancy)
     {
-        return $this->repository->update($request, $vacancy);
+        return $this->repository->update($request->all(), $vacancy->id);
     }
 
     public function show($vacancy)
     {
-        return $this->repository->show($vacancy);
+        return $this->repository->find($vacancy->id);
     }
 
     public function destroy($vacancy)
     {
-        return $this->repository->delete($vacancy);
+        return $this->repository->delete($vacancy->id);
     }
 }

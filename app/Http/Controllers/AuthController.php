@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
-    public function login()
+    private $service;
+
+    public function __construct(UserService $service)
     {
-        return 'login mané';
+        $this->service = $service;
+    }
+    public function login(LoginRequest $request)
+    {
+        return $this->service->login($request);
     }
 }

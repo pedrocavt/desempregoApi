@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\VacancyRequest;
-use App\Models\Vacancy;
+use App\Entities\Vacancy;
 use App\Services\VacancyService;
-use Illuminate\Http\Request;
+use App\Transformers\VacancyTransformer;
 
 class VacancyController extends Controller
 {
@@ -30,22 +30,26 @@ class VacancyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  VacancyRequest  $request
-     * @return Vacancy
+     * @return array
      */
-    public function store(VacancyRequest $request): Vacancy
+    public function store(VacancyRequest $request): array
     {
-        return $this->service->store($request);
+        $vacancy = $this->service->store($request);
+
+        return (new VacancyTransformer)->transform($vacancy);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\Vacancy  $vacancy
-     * @return Vacancy
+     * @return array
      */
-    public function show(Vacancy $vacancy): Vacancy
+    public function show(Vacancy $vacancy): array
     {
-        return $this->service->show($vacancy);
+        $vacancy = $this->service->show($vacancy);
+
+        return (new VacancyTransformer)->transform($vacancy);
     }
 
     /**
@@ -53,11 +57,13 @@ class VacancyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Vacancy  $vacancy
-     * @return Vacancy
+     * @return array
      */
-    public function update(VacancyRequest $request, Vacancy $vacancy): Vacancy
+    public function update(VacancyRequest $request, Vacancy $vacancy): array
     {
-        return $this->service->update($request, $vacancy);
+        $vacancy = $this->service->update($request, $vacancy);
+
+        return (new VacancyTransformer)->transform($vacancy);
     }
 
     /**
@@ -68,6 +74,12 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
-        return $this->service->destroy($vacancy);
+        $title = $vacancy->title;
+
+        $this->service->destroy($vacancy);
+
+        return [
+            'msg' => 'A vaga ' . $title . ' foi deletada sucesso'
+        ];
     }
 }

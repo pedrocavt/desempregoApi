@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Entities;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
-
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -57,6 +56,6 @@ class User extends Authenticatable implements JWTSubject
 
     public function vagancies()
     {
-        return $this->hasMany(Vacancy::class)
+        return $this->hasMany(Vacancy::class);
     }
 }

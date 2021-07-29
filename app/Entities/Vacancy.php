@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Entities;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class Vacancy extends Model
+/**
+ * Class Vacancy.
+ *
+ * @package namespace App\Entities;
+ */
+class Vacancy extends Model implements Transformable
 {
-    use HasFactory;
-
-    protected $table = 'vancancies';
+    use TransformableTrait;
 
     protected $fillable = [
         'title',

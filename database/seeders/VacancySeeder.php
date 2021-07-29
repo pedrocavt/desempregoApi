@@ -14,7 +14,7 @@ class VacancySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('vancancies')->insert([
+        DB::table('vacancies')->insert([
             'title' => 'Programdor PHP l',
             'description' => 'Programdor php para trabalhar na TRAY',
             'wage' => 3500,
