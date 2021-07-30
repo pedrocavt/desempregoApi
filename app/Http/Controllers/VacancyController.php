@@ -14,6 +14,7 @@ class VacancyController extends Controller
 
     /**
      * Cria uma intancia do service
+     * 
      * @param  VacancyService  $vacancyService
      */
     public function __construct(VacancyService $vacancyService)
@@ -23,6 +24,7 @@ class VacancyController extends Controller
 
     /**
      * Exibe lista de vagas
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(): JsonResponse
@@ -31,7 +33,8 @@ class VacancyController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cria uma vaga
+     * 
      * @param  VacancyRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -43,9 +46,9 @@ class VacancyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostra uma vaga especifica.
      *
-     * @param  \App\Models\Vacancy  $vacancy
+     * @param  \App\Entities\Vacancy  $vacancy
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Vacancy $vacancy): JsonResponse
@@ -56,10 +59,10 @@ class VacancyController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza uma vaga.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vacancy  $vacancy
+     * @param  \App\Entities\Vacancy  $vacancy
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(VacancyRequest $request, Vacancy $vacancy): JsonResponse
@@ -70,9 +73,9 @@ class VacancyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deleta uma vaga.
      *
-     * @param  \App\Models\Vacancy  $vacancy
+     * @param  \App\Entities\Vacancy  $vacancy
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Vacancy $vacancy): JsonResponse
