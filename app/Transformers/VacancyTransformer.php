@@ -14,9 +14,7 @@ class VacancyTransformer extends TransformerAbstract
 {
     /**
      * Transform the Vacancy entity.
-     *
      * @param \App\Entities\Vacancy $model
-     *
      * @return array
      */
     public function transform(Vacancy $model): array

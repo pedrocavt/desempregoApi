@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Entities\Vacancy;
+use App\Http\Requests\VacancyRequest;
 use App\Repositories\VacancyRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 class VacancyService
 {
@@ -12,17 +15,18 @@ class VacancyService
     {
         $this->repository = $repository;
     }
-    public function index()
+
+    public function index(): Collection
     {
         return $this->repository->all();
     }
 
-    public function store($request)
+    public function store(VacancyRequest $request): Vacancy
     {
         return $this->repository->create($request->all());
     }
 
-    public function update($request, $vacancy)
+    public function update(VacancyRequest $request, Vacancy $vacancy): Vacancy
     {
         return $this->repository->update($request->all(), $vacancy->id);
     }
