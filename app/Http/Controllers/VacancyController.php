@@ -9,11 +9,11 @@ use App\Transformers\VacancyTransformer;
 
 class VacancyController extends Controller
 {
-    private $service;
+    private $vacancyService;
 
-    public function __construct(VacancyService $service)
+    public function __construct(VacancyService $vacancyService)
     {
-        $this->service = $service;
+        $this->vacancyService = $vacancyService;
     }
 
     /**
@@ -23,7 +23,7 @@ class VacancyController extends Controller
      */
     public function index()
     {
-        return $this->service->index();
+        return $this->vacancyService->index();
     }
 
     /**
@@ -34,7 +34,7 @@ class VacancyController extends Controller
      */
     public function store(VacancyRequest $request): array
     {
-        $vacancy = $this->service->store($request);
+        $vacancy = $this->vacancyService->store($request);
 
         return (new VacancyTransformer)->transform($vacancy);
     }
@@ -47,7 +47,7 @@ class VacancyController extends Controller
      */
     public function show(Vacancy $vacancy): array
     {
-        $vacancy = $this->service->show($vacancy);
+        $vacancy = $this->vacancyService->show($vacancy);
 
         return (new VacancyTransformer)->transform($vacancy);
     }
@@ -61,7 +61,7 @@ class VacancyController extends Controller
      */
     public function update(VacancyRequest $request, Vacancy $vacancy): array
     {
-        $vacancy = $this->service->update($request, $vacancy);
+        $vacancy = $this->vacancyService->update($request, $vacancy);
 
         return (new VacancyTransformer)->transform($vacancy);
     }
@@ -76,7 +76,7 @@ class VacancyController extends Controller
     {
         $title = $vacancy->title;
 
-        $this->service->destroy($vacancy);
+        $this->vacancyService->destroy($vacancy);
 
         return [
             'msg' => 'A vaga ' . $title . ' foi deletada sucesso'

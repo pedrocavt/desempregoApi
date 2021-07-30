@@ -22,9 +22,9 @@ class VacancyTransformer extends TransformerAbstract
     public function transform(Vacancy $model): array
     {
         return [
-            'title' => (string) $model->title,
-            'description' => (string) $model->description,
-            'wage' => (int) $model->wage
+            'title'         => (string) $model->title,
+            'description'   => (string) $model->description,
+            'wage'          => (int) $model->wage
         ];
     }
 }

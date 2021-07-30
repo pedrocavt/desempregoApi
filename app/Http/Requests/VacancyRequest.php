@@ -21,25 +21,25 @@ class VacancyRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'wage' => 'required|numeric',
-            'category_id' => 'required|numeric'
+            'title'         => 'required',
+            'description'   => 'required',
+            'wage'          => 'required|numeric',
+            'category_id'   => 'required|numeric'
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
-            'title.required' => 'O campo title não foi passado',
-            'description.required' => 'O campo description não foi passado',
-            'wage.required' => 'O campo wage não foi passado',
-            'wage.numeric' => 'wage não é um número',
-            'category_id.required' => 'O campo category_id não foi passado',
-            'category_id.numeric' => 'category_id não é um número'
+            'title.required'        => 'O campo title não foi passado',
+            'description.required'  => 'O campo description não foi passado',
+            'wage.required'         => 'O campo wage não foi passado',
+            'wage.numeric'          => 'wage não é um número',
+            'category_id.required'  => 'O campo category_id não foi passado',
+            'category_id.numeric'   => 'category_id não é um número'
         ];
     }
 }

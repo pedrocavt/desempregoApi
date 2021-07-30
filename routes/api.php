@@ -18,4 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::apiResource('/vacancy', VacancyController::class);
+Route::middleware('jwt.auth')->group(function () {
+    Route::apiResource('/vacancy', VacancyController::class);
+});

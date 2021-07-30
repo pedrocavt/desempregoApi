@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Support\CategorySupport;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,16 +15,12 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
-            'category' => 'Junior'
-        ]);
+        $categories = CategorySupport::getAllCategories();
 
-        DB::table('categories')->insert([
-            'category' => 'Pleno'
-        ]);
-
-        DB::table('categories')->insert([
-            'category' => 'Senior'
-        ]);
+        foreach ($categories as $category) {
+            DB::table('categories')->insert([
+                'category' => $category
+            ]);
+        }
     }
 }
