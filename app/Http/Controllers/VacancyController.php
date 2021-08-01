@@ -6,6 +6,7 @@ use App\Http\Requests\VacancyRequest;
 use App\Entities\Vacancy;
 use App\Services\VacancyService;
 use App\Transformers\VacancyTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class VacancyController extends Controller
@@ -15,7 +16,7 @@ class VacancyController extends Controller
     /**
      * Cria uma intancia do service
      * 
-     * @param  VacancyService  $vacancyService
+     * @param \App\Services\VacancyService  $vacancyService
      */
     public function __construct(VacancyService $vacancyService)
     {
@@ -46,16 +47,19 @@ class VacancyController extends Controller
     }
 
     /**
-     * Mostra uma vaga especifica.
+     * mostra uma vaga
      *
-     * @param  \App\Entities\Vacancy  $vacancy
-     * @return \Illuminate\Http\JsonResponse
+     * @param int $id
+     * @return JsonResponse
      */
-    public function show(Vacancy $vacancy): JsonResponse
+    public function show(int $id)
     {
-        $vacancy = $this->vacancyService->show($vacancy);
-
-        return response()->json((new VacancyTransformer)->transform($vacancy), 200);
+        try {
+            $vacancy = $this->vacancyService->show($id);
+            return response()->json((new VacancyTransformer)->transform($vacancy), 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json("Vacancy id: $id not found", 401);
+        }
     }
 
     /**

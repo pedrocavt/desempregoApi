@@ -2,12 +2,20 @@
 
 namespace App\Services;
 
-use App\Entities\User;
+use App\Http\Requests\LoginRequest;
 use App\Repositories\UserRepository;
+use Illuminate\Http\JsonResponse;
 
 class UserService
 {
-    public function login($request)
+
+    /**
+     * login
+     *
+     * @param \App\Http\Requests\LoginRequest $request 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
         $token = auth('api')->attempt($request->all());
 

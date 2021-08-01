@@ -4,17 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Services\UserService;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    private $service;
+    private $userService;
 
-    public function __construct(UserService $service)
+    /**
+     * construct
+     *
+     * @param \App\Services\UserService $userService 
+     */
+    public function __construct(UserService $userService)
     {
-        $this->service = $service;
+        $this->userService = $userService;
     }
-    public function login(LoginRequest $request)
+
+    /**
+     * login
+     *
+     * @param \App\Http\Requests\LoginRequest $request 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
-        return $this->service->login($request);
+        return $this->userService->login($request);
     }
 }

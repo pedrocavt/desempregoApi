@@ -6,6 +6,9 @@ use App\Entities\Vacancy;
 use App\Http\Requests\VacancyRequest;
 use App\Repositories\VacancyRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 class VacancyService
 {
@@ -55,16 +58,21 @@ class VacancyService
     }
 
     /**
-     * mostra uma vaga especifica
+     * show
      *
-     * @param \App\Entities\Vacancy $vacancy 
+     * @param int $id 
      * @return \App\Entities\Vacancy
      */
-    public function show(Vacancy $vacancy): Vacancy
+    public function show(int $id): Vacancy
     {
-        return $this->repository->find($vacancy->id);
-    }
+        $vacancy = $this->repository->find($id);
 
+        // if (!$vacancy) {
+        //     throw new ModelNotFoundException('not found');
+        // }
+
+        return $vacancy;
+    }
     /**
      * deleta uma vaga
      *
