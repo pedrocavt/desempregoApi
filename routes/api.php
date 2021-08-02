@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,4 +21,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('jwt.auth')->group(function () {
     Route::apiResource('/vacancy', VacancyController::class);
+    Route::get('/category/{id}', [CategoryController::class, "getVacancys"]);
 });
