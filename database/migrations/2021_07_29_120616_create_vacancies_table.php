@@ -21,7 +21,6 @@ class CreateVacanciesTable extends Migration
 			$table->string('title', 60);
 			$table->text('description');
 			$table->integer('wage');
-			$table->timestamps();
 
 			$table->unsignedBigInteger('user_id');
 			$table->foreign('user_id')->references('id')->on('users');

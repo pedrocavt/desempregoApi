@@ -6,22 +6,20 @@ use App\Entities\Vacancy;
 use App\Http\Requests\VacancyRequest;
 use App\Repositories\VacancyRepository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
+
 
 class VacancyService
 {
-    private $repository;
+    private $vacancyRepository;
 
     /**
      * construct
      *
-     * @param \App\Repositories\VacancyRepository $repository 
+     * @param \App\Repositories\VacancyRepository $vacancyRepository 
      */
-    public function __construct(VacancyRepository $repository)
+    public function __construct(VacancyRepository $vacancyRepository)
     {
-        $this->repository = $repository;
+        $this->vacancyRepository = $vacancyRepository;
     }
 
     /**
@@ -31,7 +29,7 @@ class VacancyService
      */
     public function index(): Collection
     {
-        return $this->repository->all();
+        return $this->vacancyRepository->all();
     }
 
     /**
@@ -42,8 +40,7 @@ class VacancyService
      */
     public function store(VacancyRequest $request): Vacancy
     {
-
-        return $this->repository->create([
+        return $this->vacancyRepository->create([
             "title"         => $request->title,
             "description"   => $request->description,
             "wage"          => $request->wage,
@@ -61,7 +58,7 @@ class VacancyService
      */
     public function update(VacancyRequest $request, int $id): Vacancy
     {
-        return $this->repository->update($request->all(), $id);
+        return $this->vacancyRepository->update($request->all(), $id);
     }
 
     /**
@@ -72,7 +69,7 @@ class VacancyService
      */
     public function show(int $id): Vacancy
     {
-        $vacancy = $this->repository->find($id);
+        $vacancy = $this->vacancyRepository->find($id);
 
         return $vacancy;
     }
@@ -84,6 +81,6 @@ class VacancyService
      */
     public function destroy(int $id): bool
     {
-        return $this->repository->delete($id);
+        return $this->vacancyRepository->delete($id);
     }
 }
