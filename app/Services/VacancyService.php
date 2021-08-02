@@ -42,19 +42,26 @@ class VacancyService
      */
     public function store(VacancyRequest $request): Vacancy
     {
-        return $this->repository->create($request->all());
+
+        return $this->repository->create([
+            "title"         => $request->title,
+            "description"   => $request->description,
+            "wage"          => $request->wage,
+            "category_id"   => $request->category_id,
+            "user_id"       => auth()->user()->id
+        ]);
     }
 
     /**
      * atualiza uma vaga
      *
      * @param \App\Http\Requests\VacancyRequest $request 
-     * @param \App\Entities\Vacancy $vacancy 
+     * @param int $id
      * @return \App\Entities\Vacancy
      */
-    public function update(VacancyRequest $request, Vacancy $vacancy): Vacancy
+    public function update(VacancyRequest $request, int $id): Vacancy
     {
-        return $this->repository->update($request->all(), $vacancy->id);
+        return $this->repository->update($request->all(), $id);
     }
 
     /**
@@ -67,20 +74,16 @@ class VacancyService
     {
         $vacancy = $this->repository->find($id);
 
-        // if (!$vacancy) {
-        //     throw new ModelNotFoundException('not found');
-        // }
-
         return $vacancy;
     }
     /**
      * deleta uma vaga
      *
-     * @param \App\Entities\Vacancy $vacancy 
+     * @param int $id
      * @return bool
      */
-    public function destroy(Vacancy $vacancy): bool
+    public function destroy(int $id): bool
     {
-        return $this->repository->delete($vacancy->id);
+        return $this->repository->delete($id);
     }
 }

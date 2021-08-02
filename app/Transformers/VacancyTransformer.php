@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use App\Entities\Vacancy;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class VacancyTransformer.
@@ -22,7 +23,25 @@ class VacancyTransformer extends TransformerAbstract
         return [
             'title'         => (string) $model->title,
             'description'   => (string) $model->description,
-            'wage'          => (int) $model->wage
+            'wage'          => (int) $model->wage,
+            'user_id'       => (int) $model->user_id,
+            'category_id'   => (int) $model->category_id
+
         ];
+    }
+
+    public function transformCollection(Collection $models): array
+    {
+        foreach ($models as $model) {
+            $data[] = [
+                "title"         => $model->title,
+                "description"   => $model->description,
+                "wage"          => $model->wage,
+                "user_id"       => $model->user_id,
+                "category_id"   => $model->category_id
+            ];
+        }
+
+        return $data;
     }
 }

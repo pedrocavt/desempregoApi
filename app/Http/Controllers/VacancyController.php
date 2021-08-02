@@ -6,7 +6,9 @@ use App\Http\Requests\VacancyRequest;
 use App\Entities\Vacancy;
 use App\Services\VacancyService;
 use App\Transformers\VacancyTransformer;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 
 class VacancyController extends Controller
@@ -26,22 +28,40 @@ class VacancyController extends Controller
     /**
      * Exibe lista de vagas
      * 
+     * @throws Exception $e
+     * @throws Illuminate\Database\QueryException $e
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->vacancyService->index(), 200);
+        try {
+            $vacancys = $this->vacancyService->index();
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+
+        return response()->json((new VacancyTransformer)->transformCollection($vacancys), 200);
     }
 
     /**
      * Cria uma vaga
      * 
-     * @param  VacancyRequest  $request
+     * @param  \App\Http\Requests\VacancyRequest  $request
+     * @throws Exception $e
+     * @throws Illuminate\Database\QueryException $e
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(VacancyRequest $request): JsonResponse
     {
-        $vacancy = $this->vacancyService->store($request);
+        try {
+            $vacancy = $this->vacancyService->store($request);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
+        }
 
         return response()->json((new VacancyTransformer)->transform($vacancy), 200);
     }
@@ -50,28 +70,41 @@ class VacancyController extends Controller
      * mostra uma vaga
      *
      * @param int $id
-     * @return JsonResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundExceptions $e
+     * @throws Illuminate\Database\QueryException $e
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         try {
             $vacancy = $this->vacancyService->show($id);
-            return response()->json((new VacancyTransformer)->transform($vacancy), 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json("Vacancy id: $id not found", 401);
+            return response()->json("Vacancy of id: $id not found", 404);
+        } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
         }
+
+        return response()->json((new VacancyTransformer)->transform($vacancy), 200);
     }
 
     /**
      * Atualiza uma vaga.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Entities\Vacancy  $vacancy
+     * @param  \App\Http\Requests\VacancyRequest  $request
+     * @param int $id
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundExceptions $e
+     * @throws Illuminate\Database\QueryException $e
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(VacancyRequest $request, Vacancy $vacancy): JsonResponse
+    public function update(VacancyRequest $request, int $id): JsonResponse
     {
-        $vacancy = $this->vacancyService->update($request, $vacancy);
+        try {
+            $vacancy = $this->vacancyService->update($request, $id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json("Vacancy of id: $id not found", 404);
+        } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
+        }
 
         return response()->json((new VacancyTransformer)->transform($vacancy), 200);
     }
@@ -79,17 +112,24 @@ class VacancyController extends Controller
     /**
      * Deleta uma vaga.
      *
-     * @param  \App\Entities\Vacancy  $vacancy
+     * @param  int $id
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundExceptions $e
+     * @throws Illuminate\Database\QueryException $e
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Vacancy $vacancy): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $title = $vacancy->title;
-
-        $this->vacancyService->destroy($vacancy);
+        try {
+            $vacancy = $this->vacancyService->show($id);
+            $this->vacancyService->destroy($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json("Vacancy of id: $id not found", 404);
+        } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
+        }
 
         return response()->json([
-            'msg' => 'A vaga ' . $title . ' foi deletada sucesso'
+            'msg' => 'A vaga ' . $vacancy->title . ' foi deletada sucesso'
         ], 200);
     }
 }
