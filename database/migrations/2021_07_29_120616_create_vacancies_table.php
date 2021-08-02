@@ -38,6 +38,10 @@ class CreateVacanciesTable extends Migration
 	 */
 	public function down()
 	{
-		Schema::drop('vacancies');
+		Schema::table('vacancies', function (Blueprint $table) {
+			$table->dropForeign('vacancies_category_id_foreign');
+			$table->dropForeign('vacancies_user_id_foreign');
+		});
+		Schema::dropIfExists('vacancies');
 	}
 }
