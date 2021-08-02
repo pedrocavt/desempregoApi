@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Entities\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Repositories\UserRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use App\Entities\User;
+use Exception;
 
 class UserService
 {
@@ -22,29 +22,29 @@ class UserService
      * login
      *
      * @param \App\Http\Requests\LoginRequest $request 
-     * @return \Illuminate\Http\JsonResponse
+     * @return array
      */
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginRequest $request): array
     {
         $token = auth('api')->attempt([
             'email'     => $request->email,
             'password'  => $request->password
         ]);
 
-        if ($token) {
-            return response()->json(['token' => $token]);
+        if (!$token) {
+            throw new Exception('Usuário ou senha inválido');
         }
 
-        return response()->json(['error' => 'Usuário ou senha inválido'], 403);
+        return ['token' => $token];
     }
 
     /**
      * login
      *
      * @param \App\Http\Requests\RegisterRequest $request 
-     * @return \Illuminate\Http\JsonResponse
+     * @return \App\Entities\User
      */
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(RegisterRequest $request): User
     {
         $user = $this->userRepository->create([
             "name"  => $request->name,
@@ -52,6 +52,6 @@ class UserService
             "password"  => Hash::make($request->password),
         ]);
 
-        return response()->json($user, 200);
+        return $user;
     }
 }

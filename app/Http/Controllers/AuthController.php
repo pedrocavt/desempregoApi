@@ -33,7 +33,7 @@ class AuthController extends Controller
         try {
             return response()->json($this->userService->login($request), 200);
         } catch (\Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(), 401);
         }
     }
 
