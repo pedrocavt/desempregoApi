@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\Category;
 use App\Services\CategoryService;
 use App\Transformers\VacancyTransformer;
 use Exception;

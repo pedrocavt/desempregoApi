@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Services\UserService;
+use App\Transformers\VacancyTransformer;
 
 class UserController extends Controller
 {
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     /**
      * myVacancys
      *
@@ -18,14 +25,11 @@ class UserController extends Controller
     {
         try {
             $id = auth()->user()->id;
-
-            $user = User::find($id);
-
-            $vacancies = $user->vacancies()->get();
+            $vacancies = $this->userService->vacancies($id);
         } catch (Exception $e) {
             return response()->json($e->getMessage());
         }
 
-        return response()->json($vacancies, 200);
+        return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);
     }
 }
