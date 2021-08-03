@@ -31,6 +31,11 @@ class VacancyRequest extends FormRequest
         ];
     }
 
+    /**
+     * messages
+     *
+     * @return array
+     */
     public function messages(): array
     {
         return [

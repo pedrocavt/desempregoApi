@@ -10,7 +10,12 @@ class CategorySupport
 
     const SENIOR = 'Senior';
 
-    public static function getAllCategories()
+    /**
+     * getAllCategories
+     *
+     * @return array
+     */
+    public static function getAllCategories(): array
     {
         return [
             self::JUNIOR,

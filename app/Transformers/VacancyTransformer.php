@@ -30,6 +30,12 @@ class VacancyTransformer extends TransformerAbstract
         ];
     }
 
+    /**
+     * transformCollection
+     *
+     * @param \Illuminate\Database\Eloquent\Collection $models 
+     * @return array
+     */
     public function transformCollection(Collection $models): array
     {
         foreach ($models as $model) {

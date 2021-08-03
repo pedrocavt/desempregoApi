@@ -13,6 +13,11 @@ class UserService
 {
     private $userRepository;
 
+    /**
+     * construct
+     *
+     * @param \App\Repositories\UserRepository $userRepository 
+     */
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
