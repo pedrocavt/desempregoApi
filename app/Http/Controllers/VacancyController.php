@@ -104,6 +104,8 @@ class VacancyController extends Controller
             return response()->json("Vacancy of id: $id not found", 404);
         } catch (QueryException $e) {
             return response()->json($e->getMessage(), 500);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
 
         return response()->json((new VacancyTransformer)->transform($vacancy), 200);
@@ -125,6 +127,8 @@ class VacancyController extends Controller
         } catch (ModelNotFoundException $e) {
             return response()->json("Vacancy of id: $id not found", 404);
         } catch (QueryException $e) {
+            return response()->json($e->getMessage(), 500);
+        } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
 

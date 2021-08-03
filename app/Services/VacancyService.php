@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entities\Vacancy;
 use App\Http\Requests\VacancyRequest;
 use App\Repositories\VacancyRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 
@@ -54,10 +55,17 @@ class VacancyService
      *
      * @param \App\Http\Requests\VacancyRequest $request 
      * @param int $id
+     * @throws Exception 
      * @return \App\Entities\Vacancy
      */
     public function update(VacancyRequest $request, int $id): Vacancy
     {
+        $vacancy = $this->vacancyRepository->find($id);
+
+        if ($vacancy->user_id != auth()->user()->id) {
+            throw new Exception("You didnt post this vacancy");
+        }
+
         return $this->vacancyRepository->update($request->all(), $id);
     }
 
@@ -81,6 +89,12 @@ class VacancyService
      */
     public function destroy(int $id): bool
     {
+        $vacancy = $this->vacancyRepository->find($id);
+
+        if ($vacancy->user_id != auth()->user()->id) {
+            throw new Exception("You didnt post this vacancy");
+        }
+
         return $this->vacancyRepository->delete($id);
     }
 }
