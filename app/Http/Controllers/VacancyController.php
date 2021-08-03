@@ -94,6 +94,7 @@ class VacancyController extends Controller
      * @param int $id
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundExceptions $e
      * @throws Illuminate\Database\QueryException $e
+     * @throws Exception $e
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(VacancyRequest $request, int $id): JsonResponse
@@ -117,6 +118,7 @@ class VacancyController extends Controller
      * @param  int $id
      * @throws \Illuminate\Database\Eloquent\ModelNotFoundExceptions $e
      * @throws Illuminate\Database\QueryException $e
+     * @throws Exception $e
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(int $id): JsonResponse
