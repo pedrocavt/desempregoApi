@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 Route::middleware('jwt.auth')->group(function () {
+    Route::get('/user/my_vacancies', [UserController::class, "myVacancies"]);
     Route::apiResource('/vacancy', VacancyController::class);
-    Route::get('/category/{id}', [CategoryController::class, "getVacancys"]);
+    Route::get('/category/{id}', [CategoryController::class, "getVacancies"]);
 });

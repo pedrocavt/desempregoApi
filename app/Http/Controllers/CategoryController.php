@@ -3,26 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Category;
+use App\Serices\CategoryService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
+
+    private $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
     /**
-     * getVacancys
+     * getVacancies
      *
      * @param int $id 
      * @throws Exception $e
      * @return Illuminate\Http\JsonResponse 
      */
-    public function getVacancys(int $id): JsonResponse
+    public function getVacancies(int $id): JsonResponse
     {
         try {
-            $category = Category::find($id);
+            $this->categoryService->vacancies($id);
         } catch (Exception $e) {
             return response()->json($e->getMessage());
         }
 
-        return response()->json($category->vacancys()->get(), 200);
+        return response()->json($vacancies, 200);
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Entities\User;
 use Exception;
 
-class UserService
+class AuthService
 {
     private $userRepository;
 

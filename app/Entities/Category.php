@@ -22,7 +22,7 @@ class Category extends Model implements Transformable
      */
     protected $fillable = [];
 
-    public function vacancys()
+    public function vacancies()
     {
         return $this->hasMany(Vacancy::class);
     }
