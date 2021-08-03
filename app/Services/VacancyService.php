@@ -98,14 +98,36 @@ class VacancyService
         return $this->vacancyRepository->delete($id);
     }
 
-    public function applyVacancies($id): string
+
+    /**
+     * applyVacancies
+     *
+     * @param int $id
+     * @throws Exception
+     */
+    public function applyVacancies(int $id)
     {
         $user = auth()->user();
+
+        $vacancy = $user->userApplyVacancies()->where('vacancy_id', $id)->first();
+
+        if ($vacancy) {
+            throw new Exception("You already applied for this vagancy");
+        }
+
+        $vacancysPosted = $this->vacancyRepository->findWhere([
+            "id"        => $id,
+            "user_id"   => $user->id
+        ])->first();
+
+        if ($vacancysPosted) {
+            throw new Exception("You cant to apply for your vagancy");
+        }
 
         $user->userApplyVacancies()->attach($id);
 
         $vacancy = Vacancy::find($id);
 
-        return "Você aplicou para a vaga $vacancy->title";
+        return "You applied for $vacancy->title";
     }
 }

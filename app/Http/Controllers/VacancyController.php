@@ -147,6 +147,12 @@ class VacancyController extends Controller
      */
     public function applyVacancies(int $id): JsonResponse
     {
-        return response()->json($this->vacancyService->applyVacancies($id), 200);
+        try {
+            $apply = $this->vacancyService->applyVacancies($id);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+
+        return response()->json($apply, 200);
     }
 }
