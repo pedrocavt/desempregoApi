@@ -16,11 +16,11 @@ class CreateUserVacancyTable extends Migration
         Schema::create('user_vacancy', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('vancancy_id');
-            $table->foreign('vancancy_id')->references('id')->on('vacancies');
-
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('vacancy_id');
+            $table->foreign('vacancy_id')->references('id')->on('vacancies');
 
             $table->timestamps();
         });

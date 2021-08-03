@@ -25,4 +25,5 @@ Route::middleware('jwt.auth')->group(function () {
     Route::get('/user/my_vacancies', [UserController::class, "myVacancies"]);
     Route::apiResource('/vacancy', VacancyController::class);
     Route::get('/category/{id}', [CategoryController::class, "getVacancies"]);
+    Route::post('/apply_vacancy/{id}', [VacancyController::class, "applyVacancies"]);
 });

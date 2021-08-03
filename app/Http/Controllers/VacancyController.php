@@ -138,4 +138,15 @@ class VacancyController extends Controller
             'msg' => 'A vaga ' . $vacancy->title . ' foi deletada sucesso'
         ], 200);
     }
+
+    /**
+     * applyVacancies
+     *
+     * @param int $id 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function applyVacancies(int $id): JsonResponse
+    {
+        return response()->json($this->vacancyService->applyVacancies($id), 200);
+    }
 }

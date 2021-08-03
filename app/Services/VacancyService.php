@@ -97,4 +97,15 @@ class VacancyService
 
         return $this->vacancyRepository->delete($id);
     }
+
+    public function applyVacancies($id): string
+    {
+        $user = auth()->user();
+
+        $user->userApplyVacancies()->attach($id);
+
+        $vacancy = Vacancy::find($id);
+
+        return "Você aplicou para a vaga $vacancy->title";
+    }
 }
