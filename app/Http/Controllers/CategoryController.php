@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Category;
-use App\Serices\CategoryService;
+use App\Services\CategoryService;
+use App\Transformers\VacancyTransformer;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
@@ -26,11 +27,11 @@ class CategoryController extends Controller
     public function getVacancies(int $id): JsonResponse
     {
         try {
-            $this->categoryService->vacancies($id);
+            $vacancies = $this->categoryService->vacancies($id);
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(), 404);
         }
 
-        return response()->json($vacancies, 200);
+        return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);
     }
 }
