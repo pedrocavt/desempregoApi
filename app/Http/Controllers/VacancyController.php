@@ -143,6 +143,7 @@ class VacancyController extends Controller
      * applyVacancies
      *
      * @param int $id 
+     * @throws Exception $e
      * @return \Illuminate\Http\JsonResponse
      */
     public function applyVacancies(int $id): JsonResponse

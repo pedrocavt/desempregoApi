@@ -17,10 +17,10 @@ class CreateUserVacancyTable extends Migration
             $table->id();
 
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unsignedBigInteger('vacancy_id');
-            $table->foreign('vacancy_id')->references('id')->on('vacancies');
+            $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -35,7 +35,7 @@ class CreateUserVacancyTable extends Migration
     {
         Schema::table('user_vacancy', function (Blueprint $table) {
             $table->dropForeign('user_vacancy_user_id_foreign');
-            $table->dropForeign('user_vacancy_vancancy_id_foreign');
+            $table->dropForeign('user_vacancy_vacancy_id_foreign');
         });
         Schema::dropIfExists('user_vacancy');
     }

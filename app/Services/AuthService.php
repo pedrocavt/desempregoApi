@@ -37,7 +37,7 @@ class AuthService
         ]);
 
         if (!$token) {
-            throw new Exception('Usuário ou senha inválido');
+            throw new Exception('Invalid email or password');
         }
 
         return ['token' => $token];

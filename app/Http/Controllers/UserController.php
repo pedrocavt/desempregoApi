@@ -24,8 +24,25 @@ class UserController extends Controller
     public function myVacancies(): JsonResponse
     {
         try {
-            $id = auth()->user()->id;
-            $vacancies = $this->userService->vacancies($id);
+            $user = auth()->user();
+            $vacancies = $this->userService->vacancies($user);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage());
+        }
+
+        return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);
+    }
+
+    /**
+     * myApplications
+     *
+     * @return Illuminate\Http\JsonResponse 
+     */
+    public function myApplications(): JsonResponse
+    {
+        try {
+            $user = auth()->user();
+            $vacancies = $this->userService->applications($user);
         } catch (Exception $e) {
             return response()->json($e->getMessage());
         }

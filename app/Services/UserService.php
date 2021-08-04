@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -17,13 +18,22 @@ class UserService
     /**
      * vacancies
      *
-     * @param int $id 
+     * @param \App\Entities\User $user 
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function vacancies(int $id): Collection
+    public function vacancies(User $user): Collection
     {
-        $user = $this->userRepository->find($id);
-
         return $user->vacancies()->get();
+    }
+
+    /**
+     * applications
+     *
+     * @param \App\Entities\User $user 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function applications(User $user): Collection
+    {
+        return $user->userApplyVacancies()->get();
     }
 }

@@ -4,10 +4,11 @@ namespace App\Services;
 
 use App\Entities\Vacancy;
 use App\Http\Requests\VacancyRequest;
+use App\Mail\AppliedVacancy;
 use App\Repositories\VacancyRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\Mail;
 
 class VacancyService
 {
@@ -85,6 +86,7 @@ class VacancyService
      * deleta uma vaga
      *
      * @param int $id
+     * @throws Exception
      * @return bool
      */
     public function destroy(int $id): bool
@@ -104,8 +106,9 @@ class VacancyService
      *
      * @param int $id
      * @throws Exception
+     * @return string
      */
-    public function applyVacancies(int $id)
+    public function applyVacancies(int $id): string
     {
         $user = auth()->user();
 
@@ -126,7 +129,12 @@ class VacancyService
 
         $user->userApplyVacancies()->attach($id);
 
-        $vacancy = Vacancy::find($id);
+        $vacancy = $this->vacancyRepository->find($id);
+
+        $email = new AppliedVacancy($vacancy->title, $user->name);
+
+        SendEmailService::sendEmail($user, $email);
+        // sleep(5);
 
         return "You applied for $vacancy->title";
     }

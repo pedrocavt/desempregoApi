@@ -26,7 +26,6 @@ class VacancyTransformer extends TransformerAbstract
             'wage'          => (int) $model->wage,
             'user_id'       => (int) $model->user_id,
             'category_id'   => (int) $model->category_id
-
         ];
     }
 
