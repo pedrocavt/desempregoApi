@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entities\User;
 use App\Entities\Vacancy;
 use App\Http\Requests\VacancyRequest;
 use App\Mail\AppliedVacancy;
@@ -131,10 +132,18 @@ class VacancyService
 
         $vacancy = $this->vacancyRepository->find($id);
 
-        $email = new AppliedVacancy($vacancy->title, $user->name);
 
-        SendEmailService::sendEmail($user, $email);
-        // sleep(5);
+        $users = User::all();
+
+        foreach ($users as $indice => $user) {
+            $multi = $indice + 1;
+
+            $email = new AppliedVacancy($vacancy->title);
+
+            SendEmailService::sendEmail($user, $email, $multi);
+            // sleep(5);
+        }
+
 
         return "You applied for $vacancy->title";
     }

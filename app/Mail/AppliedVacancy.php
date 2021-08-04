@@ -20,10 +20,9 @@ class AppliedVacancy extends Mailable
      *
      * @return void
      */
-    public function __construct($vacancy, $nameUser)
+    public function __construct($vacancy)
     {
         $this->vacancy = $vacancy;
-        $this->nameUser = $nameUser;
     }
 
     /**
