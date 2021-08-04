@@ -2,10 +2,9 @@
 
 namespace App\Services;
 
-use App\Entities\User;
 use App\Entities\Vacancy;
+use App\Events\NewVacancy;
 use App\Http\Requests\VacancyRequest;
-use App\Mail\AppliedVacancy;
 use App\Repositories\VacancyRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,18 +49,13 @@ class VacancyService
             "user_id"       => auth()->user()->id
         ]);
 
-        $users = User::all();
+        $eventNewVacancy = new NewVacancy(
+            $vacancy->title,
+            $vacancy->description,
+            $vacancy->wage
+        );
 
-        foreach ($users as $indice => $user) {
-            $multi = $indice + 1;
-
-            $email = new AppliedVacancy($vacancy->title, $vacancy->description, $vacancy->wage);
-
-            $email->subject("Vaga Nova");
-
-            SendEmailService::sendEmail($user, $email, $multi);
-            // sleep(5);
-        }
+        event($eventNewVacancy);
 
         return $vacancy;
     }
