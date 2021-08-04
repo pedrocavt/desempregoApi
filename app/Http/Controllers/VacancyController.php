@@ -150,6 +150,8 @@ class VacancyController extends Controller
     {
         try {
             $apply = $this->vacancyService->applyVacancies($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json("Vacancy of id: $id not found", 404);
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

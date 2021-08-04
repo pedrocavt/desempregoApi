@@ -121,9 +121,10 @@ class VacancyService
     {
         $user = auth()->user();
 
-        $vacancy = $user->userApplyVacancies()->where('vacancy_id', $id)->first();
+        $vacancyApplied = $user->userApplyVacancies()->where('vacancy_id', $id)->first();
 
-        if ($vacancy) {
+
+        if ($vacancyApplied) {
             throw new Exception("You already applied for this vagancy");
         }
 
@@ -135,10 +136,10 @@ class VacancyService
         if ($vacancysPosted) {
             throw new Exception("You cant to apply for your vagancy");
         }
+        $vacancy = $this->vacancyRepository->find($id);
 
         $user->userApplyVacancies()->attach($id);
 
-        $vacancy = $this->vacancyRepository->find($id);
 
         return "You applied for $vacancy->title";
     }
