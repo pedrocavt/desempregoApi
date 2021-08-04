@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entities\User;
 use App\Repositories\UserRepository;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService
@@ -23,7 +24,12 @@ class UserService
      */
     public function vacancies(User $user): Collection
     {
-        return $user->vacancies()->get();
+        $vacancies = $user->vacancies()->get();
+        if (count($vacancies) < 1) {
+            throw new Exception("You dont posted any vacancy");
+        }
+
+        return $vacancies;
     }
 
     /**
@@ -34,6 +40,11 @@ class UserService
      */
     public function applications(User $user): Collection
     {
-        return $user->userApplyVacancies()->get();
+        $vacancies = $user->userApplyVacancies()->get();
+
+        if (count($vacancies) < 1) {
+            throw new Exception("You dont applied any vacancy");
+        }
+        return $vacancies;
     }
 }

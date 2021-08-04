@@ -18,7 +18,7 @@ class UserController extends Controller
 
     /**
      * myVacancys
-     *
+     * @throws Exception $e
      * @return Illuminate\Http\JsonResponse 
      */
     public function myVacancies(): JsonResponse
@@ -27,7 +27,7 @@ class UserController extends Controller
             $user = auth()->user();
             $vacancies = $this->userService->vacancies($user);
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(), 500);
         }
 
         return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);
