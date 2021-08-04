@@ -12,17 +12,20 @@ class AppliedVacancy extends Mailable
     use Queueable, SerializesModels;
 
 
-    public $vacancy;
-    public $nameUser;
+    public $title;
+    public $description;
+    public $wage;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($vacancy)
+    public function __construct($title, $description, $wage)
     {
-        $this->vacancy = $vacancy;
+        $this->title = $title;
+        $this->description = $description;
+        $this->wage = $wage;
     }
 
     /**

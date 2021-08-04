@@ -9,7 +9,7 @@ class SendEmailService
 
     public static function sendEmail($user, $email, $multi)
     {
-        $when = now()->addSecond($multi * 5);
+        $when = now()->addSecond($multi * 7);
         Mail::to($user)->later($when, $email);
     }
 }

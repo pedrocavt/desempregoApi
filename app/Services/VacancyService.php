@@ -9,7 +9,6 @@ use App\Mail\AppliedVacancy;
 use App\Repositories\VacancyRepository;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Mail;
 
 class VacancyService
 {
@@ -43,13 +42,28 @@ class VacancyService
      */
     public function store(VacancyRequest $request): Vacancy
     {
-        return $this->vacancyRepository->create([
+        $vacancy = $this->vacancyRepository->create([
             "title"         => $request->title,
             "description"   => $request->description,
             "wage"          => $request->wage,
             "category_id"   => $request->category_id,
             "user_id"       => auth()->user()->id
         ]);
+
+        $users = User::all();
+
+        foreach ($users as $indice => $user) {
+            $multi = $indice + 1;
+
+            $email = new AppliedVacancy($vacancy->title, $vacancy->description, $vacancy->wage);
+
+            $email->subject("Vaga Nova");
+
+            SendEmailService::sendEmail($user, $email, $multi);
+            // sleep(5);
+        }
+
+        return $vacancy;
     }
 
     /**
@@ -131,19 +145,6 @@ class VacancyService
         $user->userApplyVacancies()->attach($id);
 
         $vacancy = $this->vacancyRepository->find($id);
-
-
-        $users = User::all();
-
-        foreach ($users as $indice => $user) {
-            $multi = $indice + 1;
-
-            $email = new AppliedVacancy($vacancy->title);
-
-            SendEmailService::sendEmail($user, $email, $multi);
-            // sleep(5);
-        }
-
 
         return "You applied for $vacancy->title";
     }
