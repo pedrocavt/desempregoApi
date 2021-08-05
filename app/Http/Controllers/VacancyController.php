@@ -140,7 +140,7 @@ class VacancyController extends Controller
     }
 
     /**
-     * applyVacancies
+     * Aplicar para uma vaga
      *
      * @param int $id 
      * @throws Exception $e

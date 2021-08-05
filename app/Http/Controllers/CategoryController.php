@@ -17,13 +17,13 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
     /**
-     * getVacancies
+     * Pega as vagas de uma categoria
      *
      * @param int $id 
      * @throws Exception $e
      * @return Illuminate\Http\JsonResponse 
      */
-    public function getVacancies(int $id): JsonResponse
+    public function getVacanciesByCategory(int $id): JsonResponse
     {
         try {
             $vacancies = $this->categoryService->vacancies($id);

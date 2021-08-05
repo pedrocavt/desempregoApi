@@ -17,7 +17,8 @@ class UserController extends Controller
     }
 
     /**
-     * myVacancys
+     * Vagas que postei
+     * 
      * @throws Exception $e
      * @return Illuminate\Http\JsonResponse 
      */
@@ -34,8 +35,9 @@ class UserController extends Controller
     }
 
     /**
-     * myApplications
-     *
+     * minhas aplicações
+
+     * @throws Exception $e
      * @return Illuminate\Http\JsonResponse 
      */
     public function myApplications(): JsonResponse
@@ -44,7 +46,7 @@ class UserController extends Controller
             $user = auth()->user();
             $vacancies = $this->userService->applications($user);
         } catch (Exception $e) {
-            return response()->json($e->getMessage());
+            return response()->json($e->getMessage(), 500);
         }
 
         return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);

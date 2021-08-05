@@ -26,5 +26,5 @@ Route::middleware('jwt.auth')->group(function () {
     Route::post('/apply_vacancy/{id}', [VacancyController::class, "applyVacancies"]);
     Route::get('/user/my_vacancies', [UserController::class, "myVacancies"]);
     Route::get('/user/my_applications', [UserController::class, "myApplications"]);
-    Route::get('/category/{id}', [CategoryController::class, "getVacancies"]);
+    Route::get('/category/{id}', [CategoryController::class, "getVacanciesByCategory"]);
 });

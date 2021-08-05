@@ -44,7 +44,7 @@ class AuthService
     }
 
     /**
-     * login
+     * Register
      *
      * @param \App\Http\Requests\RegisterRequest $request 
      * @return \App\Entities\User

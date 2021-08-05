@@ -22,7 +22,7 @@ class CategoryService
     }
 
     /**
-     * vacancies
+     * Pega as vagas de uma categoria
      *
      * @param int $id 
      * @throws Exception

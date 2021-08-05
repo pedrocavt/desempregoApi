@@ -80,7 +80,7 @@ class VacancyService
     }
 
     /**
-     * show
+     * Mostra uma vaga
      *
      * @param int $id 
      * @return \App\Entities\Vacancy
@@ -111,7 +111,7 @@ class VacancyService
 
 
     /**
-     * applyVacancies
+     * Aplica para uma vaga
      *
      * @param int $id
      * @throws Exception
