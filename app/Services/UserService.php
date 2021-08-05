@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entities\User;
 use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserService
@@ -11,7 +12,7 @@ class UserService
     /**
      * Busca as vagas que postei
      *
-     * @param \App\Entities\User $user 
+     * @param \App\Entities\User $user
      * @throws Exception
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -30,11 +31,11 @@ class UserService
      *
      * @param \App\Entities\User $user 
      * @throws Exception
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function applications(User $user): Collection
+    public function applications(User $user): LengthAwarePaginator
     {
-        $vacancies = $user->userApplyVacancies()->get();
+        $vacancies = $user->userApplyVacancies()->paginate(1);
 
         if (count($vacancies) < 1) {
             throw new Exception("You dont applied any vacancy");

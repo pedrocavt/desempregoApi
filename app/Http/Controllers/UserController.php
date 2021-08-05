@@ -44,7 +44,7 @@ class UserController extends Controller
     {
         try {
             $user = auth()->user();
-            $vacancies = $this->userService->applications($user);
+            return response()->json($this->userService->applications($user));
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }

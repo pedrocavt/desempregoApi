@@ -1,0 +1,4 @@
+grumphp:
+    tasks:
+        phpcsfixer:
+            verbose: true     
