@@ -17,7 +17,7 @@ class VacancyController extends Controller
 
     /**
      * Cria uma intancia do service
-     * 
+     *
      * @param \App\Services\VacancyService  $vacancyService
      */
     public function __construct(VacancyService $vacancyService)
@@ -27,7 +27,7 @@ class VacancyController extends Controller
 
     /**
      * Exibe lista de vagas
-     * 
+     *
      * @throws Exception $e
      * @throws Illuminate\Database\QueryException $e
      * @return \Illuminate\Http\JsonResponse
@@ -42,12 +42,12 @@ class VacancyController extends Controller
             return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json((new VacancyTransformer)->transformCollection($vacancys), 200);
+        return response()->json((new VacancyTransformer())->transformCollection($vacancys), 200);
     }
 
     /**
      * Cria uma vaga
-     * 
+     *
      * @param  \App\Http\Requests\VacancyRequest  $request
      * @throws Exception $e
      * @throws Illuminate\Database\QueryException $e
@@ -63,7 +63,7 @@ class VacancyController extends Controller
             return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json((new VacancyTransformer)->transform($vacancy), 200);
+        return response()->json((new VacancyTransformer())->transform($vacancy), 200);
     }
 
     /**
@@ -84,7 +84,7 @@ class VacancyController extends Controller
             return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json((new VacancyTransformer)->transform($vacancy), 200);
+        return response()->json((new VacancyTransformer())->transform($vacancy), 200);
     }
 
     /**
@@ -109,7 +109,7 @@ class VacancyController extends Controller
             return response()->json($e->getMessage(), 500);
         }
 
-        return response()->json((new VacancyTransformer)->transform($vacancy), 200);
+        return response()->json((new VacancyTransformer())->transform($vacancy), 200);
     }
 
     /**
@@ -140,9 +140,9 @@ class VacancyController extends Controller
     }
 
     /**
-     * Aplicar para uma vaga
+     * Aplicar para uma vaga no app
      *
-     * @param int $id 
+     * @param int $id
      * @throws Exception $e
      * @return \Illuminate\Http\JsonResponse
      */

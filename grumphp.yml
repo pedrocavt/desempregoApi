@@ -1,4 +1,11 @@
-grumphp:
+parameters:
+    git_dir: .
+    bin_dir: vendor/bin
+    process_timeout: 280
     tasks:
         phpcsfixer:
-            verbose: true     
+            config_file: ~
+            config: ~
+            fixers: []
+            level: ~
+            verbose: true
