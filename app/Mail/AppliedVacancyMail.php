@@ -7,25 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewVacancyPosted extends Mailable
+class AppliedVacancyMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-
-    public $title;
-    public $description;
-    public $wage;
+    public $candidate;
+    public $vacancy;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($title, $description, $wage)
+    public function __construct($candidate, $vacancy)
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->wage = $wage;
+        $this->candidate = $candidate;
+        $this->vacancy = $vacancy;
     }
 
     /**

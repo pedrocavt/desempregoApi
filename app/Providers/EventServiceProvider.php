@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\AppliedVacancy;
 use App\Events\NewVacancy;
+use App\Listeners\SendEmailAppliedVacancy;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,7 +23,9 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ], NewVacancy::class => [
             SendEmailNewVacancy::class
-        ],
+        ], AppliedVacancy::class => [
+            SendEmailAppliedVacancy::class
+        ]
     ];
 
     /**

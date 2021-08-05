@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\CategoryService;
 use App\Transformers\VacancyTransformer;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
@@ -27,8 +28,10 @@ class CategoryController extends Controller
     {
         try {
             $vacancies = $this->categoryService->vacancies($id);
+        } catch (ModelNotFoundException $e) {
+            return response()->json("This category doesnt exist", 404);
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 404);
+            return response()->json(get_class($e), 404);
         }
 
         return response()->json((new VacancyTransformer)->transformCollection($vacancies), 200);

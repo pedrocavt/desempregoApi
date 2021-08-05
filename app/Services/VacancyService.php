@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entities\Vacancy;
+use App\Events\AppliedVacancy;
 use App\Events\NewVacancy;
 use App\Http\Requests\VacancyRequest;
 use App\Repositories\VacancyRepository;
@@ -140,6 +141,15 @@ class VacancyService
 
         $user->userApplyVacancies()->attach($id);
 
+        $ownerVacancy = $vacancy->user()->first();
+
+        $eventAppliedVacancy = new AppliedVacancy(
+            $user->name,
+            $vacancy->title,
+            $ownerVacancy->email
+        );
+
+        event($eventAppliedVacancy);
 
         return "You applied for $vacancy->title";
     }

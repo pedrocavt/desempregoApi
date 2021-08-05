@@ -1,8 +1,7 @@
 @component('mail::message')
-# {{$title}}
+# {{$vacancy}}
 
-## Vaga quentinha saindo do forno, corre que quem chega primeiro beba água limpa!!
-### Titulo: {{$title}}
-### Descrição: {{$description}}
-### Salário: {{$wage}}
+## Candidato brabo chegando pra somar!!!
+### {{$candidate}} acabou de aplicar para a sua de {{$vacancy}}, corra e analise o curriculo desse caboclo
+### Não se esqueça de dar um retorno, mesmo que seja negativo!
 @endcomponent

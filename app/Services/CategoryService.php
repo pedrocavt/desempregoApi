@@ -32,10 +32,6 @@ class CategoryService
     {
         $category = $this->categoryRepository->find($id);
 
-        if (!$category) {
-            throw new Exception("Category doesnt exist");
-        }
-
         $vacancies = $category->vacancies()->get();
 
         return $vacancies;

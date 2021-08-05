@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Entities\User;
 use App\Events\NewVacancy;
-use App\Mail\NewVacancyPosted;
+use App\Mail\NewVacancyPostedMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
@@ -34,7 +34,7 @@ class SendEmailNewVacancy implements ShouldQueue
         foreach ($users as $indice => $user) {
             $multi = $indice + 1;
 
-            $email = new NewVacancyPosted($event->title, $event->description, $event->wage);
+            $email = new NewVacancyPostedMail($event->title, $event->description, $event->wage);
 
             $email->subject("Vaga Nova");
 
