@@ -23,6 +23,20 @@ class VacancyServiceTest extends TestCase
         parent::setUp();
         $this->vacancyRepository = Mockery::mock(VacancyRepository::class);
         $this->vacancyService = new VacancyService($this->vacancyRepository);
+
+        //Request
+        $this->request = Mockery::mock(VacancyRequest::class);
+
+        //User
+        $this->factory = Mockery::mock(Factory::class);
+
+        app()->instance(Factory::class, $this->factory);
+
+        $user = new stdClass();
+
+        $user->id = 1;
+
+        $this->factory->shouldReceive("user")->andReturn($user);
     }
 
     /**
@@ -39,25 +53,16 @@ class VacancyServiceTest extends TestCase
     public function testStore()
     {
         $params = [
-            "title" => "Programador",
-            "description" => "Programador muito top",
-            "wage" => 5000,
-            "category_id" => 1,
+            "title"         => "Programador",
+            "description"   => "Programador muito top",
+            "wage"          => 5000,
+            "category_id"   => 1,
         ];
 
-        $this->request = Mockery::mock(VacancyRequest::class);
-
-        $this->request->shouldReceive("all")->andReturn($params);
 
         $this->vacancyRepository->shouldReceive("create")->andReturn(new Vacancy());
 
-        $this->factory = Mockery::mock(Factory::class);
-
-        app()->instance(Factory::class, $this->factory);
-
-        $user = new stdClass();
-
-        $user->id = 1;
+        $this->request->shouldReceive("all")->andReturn($params);
 
         $this->event = Mockery::mock(Dispatcher::class);
 
@@ -65,8 +70,51 @@ class VacancyServiceTest extends TestCase
 
         app()->instance("events", $this->event);
 
-        $this->factory->shouldReceive("user")->andReturn($user);
-
         $this->assertInstanceOf(Vacancy::class, $this->vacancyService->store($this->request));
+    }
+
+    public function testUpdate()
+    {
+        $vacancy = new Vacancy();
+        $vacancy->id = 2;
+        $vacancy->title = "Programador Pleno";
+        $vacancy->description = "Programador muito top";
+        $vacancy->wage = 1000;
+        $vacancy->category_id = 1;
+        $vacancy->user_id = 1;
+
+        $params = [
+            "title"         => "Programador",
+            "description"   => "Programador muito top",
+            "wage"          => 5000,
+            "category_id"   => 1,
+            "user_id"       => 1
+
+        ];
+
+        $this->request->shouldReceive("all")->andReturn($params);
+
+        $this->vacancyRepository->shouldReceive("find")->andReturn($vacancy);
+
+        $this->vacancyRepository->shouldReceive("update")->andReturn(new Vacancy());
+
+        $this->assertInstanceOf(Vacancy::class, $this->vacancyService->update($this->request, $vacancy->id));
+    }
+
+    public function testShow()
+    {
+        $vacancy = new Vacancy();
+        $vacancy->id = 2;
+        $vacancy->title = "Programador Pleno";
+        $vacancy->description = "Programador muito top";
+        $vacancy->wage = 1000;
+        $vacancy->category_id = 1;
+        $vacancy->user_id = 1;
+
+        $this->vacancyRepository->shouldReceive("find")->andReturn($vacancy);
+
+        $this->vacancyRepository->shouldReceive("delete")->andReturn(true);
+
+        $this->assertIsBool($this->vacancyService->destroy($vacancy->id));
     }
 }
