@@ -117,4 +117,22 @@ class VacancyServiceTest extends TestCase
 
         $this->assertIsBool($this->vacancyService->destroy($vacancy->id));
     }
+
+    public function testDestroy()
+    {
+
+        $vacancy = new Vacancy();
+        $vacancy->id = 2;
+        $vacancy->title = "Programador Pleno";
+        $vacancy->description = "Programador muito top";
+        $vacancy->wage = 1000;
+        $vacancy->category_id = 1;
+        $vacancy->user_id = 1;
+
+        $this->vacancyRepository->shouldReceive("find")->andReturn($vacancy);
+
+        $this->vacancyRepository->shouldReceive("delete")->andReturn($vacancy->user_id);
+
+        $this->assertIsBool($this->vacancyService->destroy($vacancy->user_id));
+    }
 }
